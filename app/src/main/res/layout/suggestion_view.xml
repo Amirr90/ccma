@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/suggestion_lay"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/_5sdp">
+
+    <TextView
+        android:textColor="@color/text_color"
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
+        android:textSize="20dp" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0.5dp"
+        android:background="#B8B8B8" />
+</LinearLayout>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp"
+        android:layout_marginTop="5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/suggestion_et_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/_10sdp"
+            android:textColor="@color/text_color"
+            android:textColorHint="@color/colorAccent"
+            android:fontFamily="@font/cutive"
+            android:hint="Recovery Amount"
+            android:inputType="phone"
+            android:textSize="16dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp"
+        android:layout_marginTop="5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/suggestion_et_day"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/_10sdp"
+            android:textColor="@color/text_color"
+            android:fontFamily="@font/cutive"
+            android:hint="Days"
+            android:inputType="phone"
+            android:textSize="16dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="choices">
+        <item>No of Accounts with Location</item>
+        <item>No of Accounts with Mob no</item>
+        <item>No of Accounts with Photo</item>
+    </string-array>
+</resources>

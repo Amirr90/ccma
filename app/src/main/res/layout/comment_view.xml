@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/my_chat_lay"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_5sdp"
+    android:layout_marginBottom="@dimen/_5sdp"
+    android:paddingBottom="@dimen/_5sdp">
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="@dimen/_5sdp"
+        android:textSize="14dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:textColor="@color/text_color"
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView8"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/border_outline"
+        android:fontFamily="@font/gudea"
+        android:padding="15dp"
+        android:paddingLeft="@dimen/_10sdp"
+        android:paddingTop="@dimen/_5sdp"
+        android:paddingRight="@dimen/_10sdp"
+        android:textSize="16dp" />
+
+    <TextView
+        android:layout_marginRight="25dp"
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView9"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="3dp"
+        android:textSize="8dp" />
+</RelativeLayout>

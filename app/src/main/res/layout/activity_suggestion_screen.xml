@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SuggestionScreen">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_acc_det"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="3dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/suggestion_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary" >
+            <RelativeLayout
+                android:id="@+id/toolbar_item_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!--The Title Bar -->
+                <TextView
+                    android:id="@+id/title_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/next_lay"
+                    android:padding="10dp"
+                    android:text="Select 1 or more"
+                    android:textColor="@android:color/black"
+                    android:textSize="20dp" />
+
+                <!--The Inbox-->
+                <RelativeLayout
+                    android:id="@+id/next_lay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground">
+
+                    <ImageView
+                        android:id="@+id/next_icon"
+                        android:onClick="updateSelectedSuggestion"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentTop="true"
+                        android:cropToPadding="true"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/next"
+                        tools:ignore="VectorDrawableCompat" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/suggestion_rec"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/cv_acc_det" />
+
+
+</RelativeLayout>

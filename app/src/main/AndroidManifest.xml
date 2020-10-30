@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ccma">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:name=".Offline"
+        android:allowBackup="true"
+        android:icon="@mipmap/logo"
+        android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/logo"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".AccountStatus"/>
+        <activity android:name=".AddUserInGroupScreen" />
+        <activity android:name=".GroupsScreen" />
+        <activity android:name=".UserInGroupScreen" />
+        <activity android:name=".PickAccountScreen" />
+        <activity android:name=".PrintScreen" />
+        <activity android:name=".ChatWithUs" />
+        <activity android:name=".Profile" />
+        <activity android:name=".SuggestionScreen2" />
+        <activity android:name=".SuggestionScreen" />
+        <activity android:name=".PhoneContactScreen" />
+        <activity android:name=".PersonalContactScreen" />
+        <activity android:name=".SingleImageViewScreen" />
+        <activity android:name=".SelectedImageScreen" />
+        <activity android:name=".Add_View_CommentsScreen" />
+        <activity android:name=".Add_View_ImagesScreen" />
+        <activity android:name=".AccountDetailScreen" />
+        <activity android:name=".AddNewAccountScreen" />
+        <activity android:name=".HomeScreen" />
+        <activity android:name=".LoginScreen" />
+        <activity android:name=".SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.ccma.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+
+</manifest>

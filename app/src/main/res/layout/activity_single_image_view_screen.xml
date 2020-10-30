@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SingleImageViewScreen">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="3dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/single_image_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary" />
+
+
+    </androidx.cardview.widget.CardView>
+
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+    <com.otaliastudios.zoom.ZoomLayout
+        android:id="@+id/zoom_lay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/cv_toolbar"
+        android:scrollbars="vertical|horizontal"
+        app:animationDuration="280"
+        app:flingEnabled="true"
+        app:hasClickableChildren="false"
+        app:horizontalPanEnabled="true"
+        app:maxZoom="15.0"
+        app:maxZoomType="zoom"
+        app:minZoom="1.0"
+        app:minZoomType="zoom"
+        app:oneFingerScrollEnabled="true"
+        app:overPinchable="true"
+        app:overScrollHorizontal="true"
+        app:overScrollVertical="true"
+        app:scrollEnabled="true"
+        app:threeFingersScrollEnabled="true"
+        app:transformation="centerInside"
+        app:transformationGravity="auto"
+        app:twoFingersScrollEnabled="true"
+        app:verticalPanEnabled="true"
+        app:zoomEnabled="true">
+
+        <ImageView
+            android:id="@+id/iv_auto_image_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_launcher_foreground"
+            tools:ignore="VectorDrawableCompat" />
+    </com.otaliastudios.zoom.ZoomLayout>
+
+</RelativeLayout>

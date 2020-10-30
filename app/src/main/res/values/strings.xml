@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">CCMA</string>
+    <string name="signup_title">Not a member?</string>
+    <string name="signup_title2">Sign up now!</string>
+    <string name="login_title">Login</string>
+    <string name="login_title2">Already a member?</string>
+    <string name="last_comment">Last Comment</string>
+    <string name="app_welcome_title">Welcome To CCMA</string>
+    <string name="loading_excelTitle">Loading excel data, Please wait...</string>
+    <string name="adding_account_text">Adding Account, Please wait....</string>
+    <string name="self_added_text">1. Aamirr khan\n</string>
+    <string name="self_account">Self Account</string>
+    <string name="other_account">Family Account</string>
+    <string name="search_group_title">Search with Group Number</string>
+    <string name="balance_due">Balance due and classification</string>
+    <string name="for_acc">"For A/C No "</string>
+</resources>

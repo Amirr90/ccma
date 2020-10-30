@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Profile">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="3dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/profile_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cv_toolbar"
+        android:layout_margin="@dimen/_5sdp"
+        android:elevation="3dp"
+        app:cardCornerRadius="3dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/_10sdp">
+
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp"
+                android:text="Institution/Firm Email"
+                android:textAlignment="center"
+                android:textColor="@color/text_color"
+                android:textSize="22dp" />
+
+            <TextView
+                android:id="@+id/username_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:drawableRight="@drawable/ic_baseline_edit_24"
+                android:onClick="update"
+                android:padding="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:text="Institution/Firm Username"
+                android:textSize="20dp" />
+
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:drawableRight="@drawable/ic_baseline_edit_24"
+                android:onClick="update"
+                android:padding="@dimen/_10sdp"
+                android:text="Institution/Firm Name"
+                android:textSize="20dp" />
+
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:drawableRight="@drawable/ic_baseline_edit_24"
+                android:onClick="update"
+                android:padding="@dimen/_10sdp"
+                android:text="Branch Name"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:drawableRight="@drawable/ic_baseline_edit_24"
+                android:onClick="update"
+                android:padding="@dimen/_10sdp"
+                android:text="Mobile Number"
+                android:textSize="20dp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/_5sdp"
+        android:onClick="changePassword"
+        android:padding="@dimen/_5sdp"
+        android:text="CHANGE PASSWORD" />
+
+</RelativeLayout>

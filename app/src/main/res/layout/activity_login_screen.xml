@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".LoginScreen">
+
+  <androidx.cardview.widget.CardView
+      android:layout_margin="@dimen/_5sdp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:elevation="5dp"
+      app:cardCornerRadius="3dp">
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_margin="10dp"
+          android:layout_marginTop="20dp"
+          android:orientation="vertical"
+          android:padding="10dp">
+
+          <ImageView
+              android:id="@+id/imageView3"
+              android:layout_width="110dp"
+              android:layout_height="110dp"
+              android:layout_gravity="center_horizontal"
+              app:srcCompat="@drawable/ic_launcher_foreground"
+              tools:ignore="VectorDrawableCompat" />
+
+          <TextView
+              android:id="@+id/textView7"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_horizontal"
+              android:layout_marginTop="@dimen/_5sdp"
+              android:text="Login To CCMA"
+              android:textColor="@android:color/background_dark"
+              android:textSize="20dp"
+              android:textStyle="bold" />
+
+          <com.google.android.material.textfield.TextInputLayout
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginTop="5dp">
+
+              <com.google.android.material.textfield.TextInputEditText
+                  android:id="@+id/email_edit"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:drawableLeft="@drawable/ic_baseline_email_24"
+                  android:drawablePadding="@dimen/_10sdp"
+                  android:fontFamily="@font/cutive"
+                  android:hint="e-mail"
+                  android:textSize="16dp" />
+          </com.google.android.material.textfield.TextInputLayout>
+
+
+          <com.google.android.material.textfield.TextInputLayout
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginTop="5dp">
+
+              <com.google.android.material.textfield.TextInputEditText
+                  android:id="@+id/password_edit"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:drawableLeft="@drawable/ic_baseline_lock_24"
+                  android:drawablePadding="@dimen/_10sdp"
+                  android:fontFamily="@font/cutive"
+                  android:hint="password"
+                  android:inputType="text"
+                  android:textSize="16dp" />
+          </com.google.android.material.textfield.TextInputLayout>
+
+          <Button
+              android:id="@+id/button_login"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="5dp"
+              android:onClick="login"
+              android:text="LOGIN" />
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginTop="@dimen/_10sdp"
+              android:gravity="center_horizontal"
+              android:orientation="horizontal">
+
+              <TextView
+                  android:id="@+id/textView4"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/signup_title"
+                  android:textSize="15dp" />
+
+              <TextView
+                  android:onClick="SignUp"
+                  android:id="@+id/textView6"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="@dimen/_10sdp"
+                  android:text="@string/signup_title2"
+                  android:textColor="@android:color/holo_blue_bright"
+                  android:textSize="15dp" />
+          </LinearLayout>
+
+      </LinearLayout>
+  </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

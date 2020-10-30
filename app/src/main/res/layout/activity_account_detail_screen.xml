@@ -1,0 +1,725 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/_10sdp"
+    android:orientation="vertical"
+    tools:context=".AccountDetailScreen">
+
+    <ProgressBar
+        android:id="@+id/progressBar9"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:elevation="@dimen/_10sdp" />
+
+    <androidx.cardview.widget.CardView
+
+        android:id="@+id/cv_acc_det"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="3dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/account_detail_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary" />
+    </androidx.cardview.widget.CardView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/cv_acc_det">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/profile_cardView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:onClick="updateProfileImage"
+                        app:cardCornerRadius="@dimen/_10sdp">
+
+                        <ImageView
+                            android:id="@+id/imageView5"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            app:srcCompat="@drawable/logooo"
+                            tools:ignore="VectorDrawableCompat" />
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_margin="5dp"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:elevation="3dp"
+                        app:cardCornerRadius="3dp">
+
+                        <TextView
+                            android:background="@drawable/hollow_rectangle"
+                            android:padding="@dimen/_10sdp"
+                            android:id="@+id/acc_sn_amount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:drawableRight="@drawable/ic_baseline_edit_24"
+                            android:onClick="accountDetailFunction"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingBottom="5dp"
+                            android:textAlignment="center"
+                            android:textColor="@android:color/holo_green_dark"
+                            android:textSize="20dp" />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:padding="@dimen/_10sdp"
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/gudea"
+                        android:paddingTop="10dp"
+                        android:text="Account Number"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:fontFamily="@font/gudea"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:padding="@dimen/_10sdp"
+                        android:id="@+id/acc_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:drawableRight="@drawable/ic_baseline_edit_24"
+                        android:drawablePadding="20dp"
+                        android:onClick="accountDetailFunction"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="5dp"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="16dp" />
+
+
+                    <TextView
+                        android:padding="@dimen/_10sdp"
+                        android:id="@+id/address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:drawableRight="@drawable/ic_baseline_edit_24"
+                        android:drawablePadding="20dp"
+                        android:onClick="accountDetailFunction"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="16dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/hollow_rectangle"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:weightSum="6">
+
+                        <TextView
+                            android:id="@+id/add1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="4"
+                            android:drawablePadding="10dp"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingBottom="5dp"
+                            android:text="Address 1"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/black"
+                            android:textSize="16dp" />
+
+                        <ImageView
+                            android:id="@+id/address_nav1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:onClick="accountDetailFunction"
+                            app:srcCompat="@drawable/ic_baseline_navigation_24"
+                            tools:ignore="VectorDrawableCompat" />
+
+                        <ImageView
+                            android:id="@+id/add_location1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:onClick="accountDetailFunction"
+                            app:srcCompat="@drawable/ic_baseline_edit_location_24"
+                            tools:ignore="VectorDrawableCompat" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/hollow_rectangle"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:weightSum="6">
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:id="@+id/add2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="4"
+                            android:drawablePadding="10dp"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingBottom="5dp"
+                            android:text="Address 2"
+                            android:textColor="@android:color/black"
+                            android:textSize="16dp" />
+
+                        <ImageView
+                            android:id="@+id/address_nav2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:onClick="accountDetailFunction"
+                            app:srcCompat="@drawable/ic_baseline_navigation_24"
+                            tools:ignore="VectorDrawableCompat" />
+
+                        <ImageView
+                            android:id="@+id/add_location2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:onClick="accountDetailFunction"
+                            app:srcCompat="@drawable/ic_baseline_edit_location_24"
+                            tools:ignore="VectorDrawableCompat" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/hollow_rectangle"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:id="@+id/mob1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:drawablePadding="10dp"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingBottom="5dp"
+                            android:text="Mobile 1"
+                            android:textColor="@android:color/black"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/mobile1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="2"
+                            android:drawableRight="@drawable/ic_baseline_call_24"
+                            android:drawablePadding="10dp"
+                            android:gravity="right"
+                            android:onClick="accountDetailFunction"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingBottom="5dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/hollow_rectangle"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:id="@+id/mob2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:drawablePadding="10dp"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingBottom="5dp"
+                            android:text="Mobile 2"
+                            android:textColor="@android:color/black"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/mobile2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="2"
+                            android:drawableRight="@drawable/ic_baseline_call_24"
+                            android:drawablePadding="10dp"
+                            android:gravity="right"
+                            android:onClick="accountDetailFunction"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingBottom="5dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/hollow_rectangle"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:drawablePadding="10dp"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingBottom="5dp"
+                            android:text="Sn Date"
+                            android:textColor="@android:color/black"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/sn_date"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="2"
+                            android:drawableRight="@drawable/ic_baseline_edit_24"
+                            android:drawablePadding="10dp"
+                            android:gravity="right"
+                            android:onClick="accountDetailFunction"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingBottom="5dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/hollow_rectangle"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:drawablePadding="10dp"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingBottom="5dp"
+                            android:text="A/C Status"
+                            android:textColor="@android:color/black"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/active_status_btn"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="2"
+                            android:drawableRight="@drawable/ic_baseline_edit_24"
+                            android:drawablePadding="10dp"
+                            android:gravity="right"
+                            android:onClick="accountDetailFunction"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingBottom="5dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/hollow_rectangle"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:drawablePadding="10dp"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingBottom="5dp"
+                            android:text="Project Name"
+                            android:textColor="@android:color/black"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/project_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="2"
+                            android:drawableRight="@drawable/ic_baseline_edit_24"
+                            android:drawablePadding="10dp"
+                            android:gravity="right"
+                            android:onClick="accountDetailFunction"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingBottom="5dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="16dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                android:elevation="3dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/hollow_rectangle"
+                    android:orientation="vertical">
+
+
+                    <RelativeLayout
+                        android:id="@+id/self_account_lay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/_10sdp"
+                        android:visibility="gone">
+
+
+                        <TextView
+
+                            android:id="@+id/textView11"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_5sdp"
+                            android:text="@string/self_account"
+                            android:textColor="@android:color/black"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/self_account_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24"
+                            android:drawablePadding="@dimen/_10sdp"
+                            android:gravity="center"
+                            android:onClick="accountDetailFunction"
+                            android:padding="@dimen/_5sdp"
+                            android:text="View"
+                            android:textColor="@android:color/holo_blue_dark" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/other_account_lay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/_10sdp"
+                        android:visibility="gone">
+
+
+                        <TextView
+
+                            android:id="@+id/textView111"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_5sdp"
+                            android:text="@string/other_account"
+                            android:textColor="@android:color/black"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/family_account_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24"
+                            android:drawablePadding="@dimen/_10sdp"
+                            android:gravity="center"
+                            android:onClick="accountDetailFunction"
+                            android:padding="@dimen/_5sdp"
+                            android:text="View"
+                            android:textColor="@android:color/holo_blue_dark" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_vertical">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:gravity="center_vertical"
+                            android:padding="@dimen/_5sdp"
+                            android:text="@string/last_comment"
+                            android:textColor="@android:color/black"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/last_comment_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginRight="12dp"
+                            android:gravity="center_vertical"
+                            android:padding="@dimen/_5sdp"
+                            android:text="@string/self_added_text"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_marginLeft="20dp"
+                        android:id="@+id/last_comment_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:paddingRight="@dimen/_10sdp"
+                        />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:elevation="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="5dp">
+
+                    <Button
+                        android:id="@+id/add_view_images"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_border_orange"
+                        android:drawableRight="@drawable/ic_baseline_image_24"
+                        android:onClick="accountDetailFunction"
+                        android:paddingRight="15dp"
+                        android:text="IMAGES" />
+
+                    <Button
+                        android:id="@+id/add_view_comments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_border_blue"
+                        android:drawableRight="@drawable/ic_baseline_add_comment_24"
+                        android:onClick="accountDetailFunction"
+                        android:paddingRight="15dp"
+                        android:text="COMMENTS" />
+
+                    <Button
+                        android:id="@+id/addAccount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_border"
+                        android:drawableRight="@drawable/ic_baseline_add_20"
+                        android:onClick="accountDetailFunction"
+                        android:paddingRight="8dp"
+                        android:text="ADD ACCOUNTS" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="5dp">
+
+                    <Button
+                        android:id="@+id/personal_contact"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_border_red"
+                        android:onClick="accountDetailFunction"
+                        android:padding="@dimen/_10sdp"
+                        android:text="Personal Contact" />
+
+                    <Button
+                        android:id="@+id/phone_contact"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_border_pink"
+                        android:onClick="accountDetailFunction"
+                        android:padding="@dimen/_10sdp"
+                        android:text="Phone Contact" />
+
+                    <Button
+                        android:id="@+id/account_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_border_light_yello"
+                        android:onClick="accountDetailFunction"
+                        android:padding="@dimen/_10sdp"
+                        android:text="ACCOUNT STATUS" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/download_account_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:background="@drawable/button_border_purple"
+                android:onClick="accountDetailFunction"
+                android:text="Print Account Detail" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

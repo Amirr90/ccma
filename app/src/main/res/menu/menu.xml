@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menuPrintDaily"
+        android:icon="@drawable/ic_baseline_print_24"
+        android:title="Print"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menuItemDownloadFile"
+        android:icon="@drawable/ic_baseline_insert_drive_file_24"
+        android:title="Download File"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menuRefresh"
+        android:icon="@drawable/ic_baseline_refresh_24"
+        android:title="Profile"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menuProfile"
+        android:icon="@drawable/ic_baseline_account_circle_24"
+        android:title="Refresh"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menuChatWithUs"
+        android:icon="@drawable/ic_baseline_chat_24"
+        android:title="Profile"
+        app:actionLayout="@layout/custom_action_item_layout"
+        app:showAsAction="always" />
+
+
+    <item
+        android:id="@+id/menuSearchByPhone"
+        android:title="Search Account By Phone" />
+
+    <item
+        android:id="@+id/menuSearchByName"
+        android:title="Search Account By Name" />
+
+
+    <item
+        android:id="@+id/menuSelfGroups"
+        android:title="View All Self Group(s)" />
+    <item
+        android:id="@+id/menuFamilyGroups"
+        android:title="View All Family Group(s)" />
+
+
+    <item
+        android:id="@+id/menuFilter"
+        android:title="Filters" />
+    <item
+        android:id="@+id/menuAbout"
+        android:title="About" />
+
+
+    <item
+        android:id="@+id/menuContactUs"
+        android:title="Contact us" />
+
+    <item
+        android:id="@+id/menuLogout"
+        android:title="Logout" />
+
+
+</menu>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AccountStatus">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/AccountStatus_cv__toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="3dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/AccountStatus_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary" />
+    </androidx.cardview.widget.CardView>
+
+    <ProgressBar
+        android:id="@+id/AccountStatus_progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:elevation="@dimen/_10sdp" />
+
+    <com.dinuscxj.refresh.RecyclerRefreshLayout
+        android:id="@+id/AccountStatus_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/AccountStatus_cv__toolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textView21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:padding="@dimen/_10sdp"
+                android:text="For A/C No 9874563210"
+                android:textColor="@color/text_color"
+                android:textSize="17dp" />
+
+            <TextView
+                android:id="@+id/textView22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView21"
+                android:layout_centerHorizontal="true"
+                android:paddingBottom="@dimen/_10sdp"
+                android:text="@string/balance_due"
+                android:textSize="15dp" />
+
+            <LinearLayout
+                android:id="@+id/id_rec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView22"
+                android:layout_margin="3dp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="#B4EFECEC"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/textView25"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:padding="@dimen/_5sdp"
+                    android:text="Date"
+                    android:textColor="@color/text_color"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/textView24"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:padding="@dimen/_5sdp"
+                    android:text="Balance Due"
+                    android:textColor="@color/text_color"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/textView23"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:padding="@dimen/_5sdp"
+                    android:text="Classification"
+                    android:textColor="@color/text_color"
+                    android:textFontWeight="1"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/AccountStatus_rec"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/id_rec"
+                android:padding="@dimen/_5sdp"
+                tools:listitem="@layout/account_status_view">
+
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </RelativeLayout>
+    </com.dinuscxj.refresh.RecyclerRefreshLayout>
+
+
+</RelativeLayout>
