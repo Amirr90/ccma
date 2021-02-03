@@ -60,8 +60,6 @@ public class ChatWithUs extends AppCompatActivity {
     ProgressBar progressBar;
     TextView textView;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -181,7 +179,6 @@ public class ChatWithUs extends AppCompatActivity {
                 holder.timestamp.setText(createDate(timestamp));
 
                 if (position <= commentList.size()) {
-
                     int day1 = getDay(timestamp);
                     int day2 = getDay(commentList.get(position + 1).getTimestamp());
                     if (day1 != day2) {
@@ -189,7 +186,6 @@ public class ChatWithUs extends AppCompatActivity {
                         holder.date.setVisibility(View.VISIBLE);
                     } else {
                         holder.date.setVisibility(View.GONE);
-
                     }
                 }
 

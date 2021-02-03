@@ -22,6 +22,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -432,6 +433,25 @@ public class Util {
             return "" + documentSnapshot.getLong(ACCOUNT_NUMBER);
         } else {
             return documentSnapshot.getString(EXTRA_COLUMN_1);
+        }
+    }
+
+    public static String getTimestampFromDate(String dateString) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        // String dateString = "22-03-2017 11:18:32";
+        try {
+            //formatting the dateString to convert it into a Date
+            Date date = sdf.parse(dateString);
+            System.out.println("Given Time in milliseconds : " + date.getTime());
+
+            Calendar calendar = Calendar.getInstance();
+            //Setting the Calendar date and time to the given date and time
+            calendar.setTime(date);
+            System.out.println("Given Time in milliseconds : " + calendar.getTimeInMillis());
+            return "" + calendar.getTimeInMillis();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "";
         }
     }
 }

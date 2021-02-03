@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,11 +35,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ccma.Adapters.AllAccountHolderAdapter;
 import com.ccma.Modals.Demomodel;
 import com.ccma.Modals.ExcelModel;
-import com.ccma.Modals.ItemModel;
 import com.ccma.Utility.Api;
 import com.ccma.Utility.ApiUtils;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
@@ -58,8 +63,6 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
@@ -71,8 +74,6 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -109,6 +110,7 @@ import static com.ccma.Utility.Util.SELF_GROUPS_QUERY;
 import static com.ccma.Utility.Util.TAG2;
 import static com.ccma.Utility.Util.TIMESTAMP;
 import static com.ccma.Utility.Util.TYPE;
+import static com.ccma.Utility.Util.VISIT_TYPE;
 import static com.ccma.Utility.Util.getEmail;
 import static com.ccma.Utility.Util.getSHA512;
 import static com.ccma.Utility.Util.hideKeyboard;
@@ -128,6 +130,7 @@ public class HomeScreen extends AppCompatActivity {
     private RecyclerView recyclerView;
     int a = 0;
     ProgressBar progressBar;
+    AdView mAdView;
 
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     AllAccountHolderAdapter adapter;
@@ -141,6 +144,7 @@ public class HomeScreen extends AppCompatActivity {
     ProgressDialog loading;
     public TextView textView;
     String msg;
+    ConstraintLayout addLayout;
     FloatingActionMenu floatingActionMenu;
     FloatingActionButton floatingActionButton1, floatingActionButton2, floatingActionButton3;
 
@@ -162,7 +166,11 @@ public class HomeScreen extends AppCompatActivity {
         textView = findViewById(R.id.textView20);
         floatingActionMenu = findViewById(R.id.menu);
         uploadExcelLayout = findViewById(R.id.uploadExcelLayout);
+        addLayout = findViewById(R.id.constraintLay);
         excelRef = firestore.collection(DEMO_QUERY);
+
+        String email = "cpkhatriiitd07@gmail.com";
+        //updateAccount(email);
 
         setRec();
 
@@ -236,9 +244,59 @@ public class HomeScreen extends AppCompatActivity {
         });
 
 
-        // updateData();
+        //updateData();
+
+        // delete();
 
 
+    }
+
+    private void updateAccount(String email) {
+        firestore.collection("Account_Holders")
+                .whereEqualTo("email", email)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (null == queryDocumentSnapshots)
+                            return;
+                        for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("EXTRA_COLUMN_1", "" + snapshot.getLong("AC_No"));
+                            if (snapshot.getLong("AC_No") != 0)
+                                firestore.collection("Account_Holders")
+                                        .document(snapshot.getId())
+                                        .update(map);
+                        }
+
+                    }
+                });
+    }
+
+    private void setAdd() {
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+    }
+
+    private void delete() {
+        firestore.collection("Account_Holders")
+                .whereEqualTo("email", "cpkhatriiitd07@gmail.com")
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (DocumentSnapshot snapshot : queryDocumentSnapshots)
+                    firestore.collection("Account_Holders").document(snapshot.getId()).delete();
+                Toast.makeText(HomeScreen.this, "Deleted", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void updateData() {
@@ -274,7 +332,6 @@ public class HomeScreen extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         loadData();
-
     }
 
     private void loadData() {
@@ -282,7 +339,7 @@ public class HomeScreen extends AppCompatActivity {
         firestore.collection(ACCOUNT_QUERY)
                 .whereEqualTo(EMAIL, getEmail(this))
                 .orderBy(TIMESTAMP, Query.Direction.DESCENDING)
-                .limit(10)
+                .limit(50)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -305,16 +362,16 @@ public class HomeScreen extends AppCompatActivity {
     }
 
     private void loadData(CharSequence charSequence) {
-        long acc_num;
+        String acc_num;
         try {
-            acc_num = Long.parseLong(charSequence.toString());
+            acc_num = charSequence.toString();
             progressBar.setVisibility(View.VISIBLE);
             Query query = firestore.collection(ACCOUNT_QUERY)
                     .whereEqualTo(EMAIL, getEmail(this))
-                    .orderBy(ACCOUNT_NUMBER)
+                    .orderBy(EXTRA_COLUMN_1)
                     .startAt(acc_num)
                     .endAt(acc_num + "\uf8ff")
-                    .limit(5);
+                    .limit(30);
 
 
             query.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -361,7 +418,6 @@ public class HomeScreen extends AppCompatActivity {
                             startActivityForResult(intent, REQ_CODE_ADD_NEW_ACCOUNT);
                         } else {
                             getExcelFile(view);
-                            //Snackbar.make(view, "Coming Soon", Snackbar.LENGTH_SHORT).show();
                         }
 
                     }
@@ -370,6 +426,14 @@ public class HomeScreen extends AppCompatActivity {
             }
             break;
         }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        addLayout.setVisibility(View.VISIBLE);
+        setAdd();
     }
 
     public void getExcelFile(View view) {
@@ -478,7 +542,7 @@ public class HomeScreen extends AppCompatActivity {
 
             case R.id.menuRefresh:
                 uploadExcelLayout.setVisibility(View.VISIBLE);
-                refreshData2();
+                // refreshData2();
                 break;
 
             case R.id.menuLogout:
@@ -495,7 +559,7 @@ public class HomeScreen extends AppCompatActivity {
                 searchByPhoneDialog();
                 break;
             case R.id.menuItemDownloadFile: {
-                final CharSequence[] items = {"Download Add Account Sample file", "Download Add Account Status Sample file"};
+                final CharSequence[] items = {"Download Sample file"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreen.this);
                 builder.setTitle("Make your selection");
                 builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -507,6 +571,7 @@ public class HomeScreen extends AppCompatActivity {
 
                     }
                 }).show();
+                //downloadAddAccountFile();
             }
 
             break;
@@ -521,6 +586,9 @@ public class HomeScreen extends AppCompatActivity {
             case R.id.menuFamilyGroups:
                 startActivity(new Intent(HomeScreen.this, GroupsScreen.class)
                         .putExtra(TYPE, FAMILY_GROUPS_QUERY));
+                break;
+            case R.id.menuContactUs:
+                startActivity(new Intent(HomeScreen.this, ContactUs.class));
                 break;
             default: {
                 Toast.makeText(this, "Coming Soon", Toast.LENGTH_SHORT).show();
@@ -797,7 +865,6 @@ public class HomeScreen extends AppCompatActivity {
         });
     }
 
-
     private void refreshData2() {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference().child("items");
@@ -878,48 +945,6 @@ public class HomeScreen extends AppCompatActivity {
         });
     }
 
-
-    private void refreshData() {
-
-        String ss_id = "1XDx_YNp7aOKoxQCfI9p0MiFDm9R73KWGGkXVAn38Geg";
-        String url = "https://script.google.com/macros/s/AKfycbwqk2J7-fBbVBTioxEqtsYetm7TWPiR1CSctOVcsAgJ_bT90gM/";
-
-        String Action = "getItems";
-
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        final RetrofitService uploadInterFace = retrofit.create(RetrofitService.class);
-
-        Call<ItemModel> call = uploadInterFace.updateExcelData(Action, ss_id);
-        call.enqueue(new Callback<ItemModel>() {
-            @Override
-            public void onResponse(Call<ItemModel> call, Response<ItemModel> response) {
-                if (response.isSuccessful()) {
-                    if (response.code() == 200) {
-                        ItemModel itemModel = response.body();
-                        Toast.makeText(HomeScreen.this, " Results successful", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(HomeScreen.this, "failed " + response.message(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ItemModel> call, Throwable t) {
-                uploadExcelLayout.setVisibility(View.GONE);
-                Toast.makeText(HomeScreen.this, "error " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-
-
     public void setFilterCountToTextView(int count) {
         textView.setText(count + " Accounts Found");
     }
@@ -946,40 +971,6 @@ public class HomeScreen extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
                     if (null != data) {
 
-                        /*String PathHolder = getFileName(data.getData());
-                        Toast.makeText(this, "" + PathHolder, Toast.LENGTH_SHORT).show();
-                        File file = new File(getExternalFilesDir(null), PathHolder);
-                        // File file = new File(data.getData().getPath());
-                        WorkbookSettings workbookSettings = new WorkbookSettings();
-                        workbookSettings.setGCDisabled(true);
-                        if (file != null) {
-                            try {
-                                workbook = workbook.getWorkbook(file);
-                                Sheet sheet = workbook.getSheet(0);
-                                Toast.makeText(HomeScreen.this, "" + sheet.getColumns(), Toast.LENGTH_SHORT).show();
-                                for (int a = 0; a < sheet.getRows(); a++) {
-                                    Cell[] row = sheet.getRow(a);
-                                    Map<String, Object> map = new HashMap<>();
-                                    map.put(ACCOUNT_NUMBER, row[0].getContents());
-                                    map.put(NAME, row[1].getContents());
-                                    map.put(SAN_AMOUNT, row[2].getContents());
-                                    excelRef.add(map);
-                                }
-                                Toast.makeText(this, "Uploaded", Toast.LENGTH_SHORT).show();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                                Toast.makeText(this, "failed\n" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                            } catch (BiffException e) {
-                                e.printStackTrace();
-                                Toast.makeText(this, "failed\n" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-
-                            }
-                        }
-                    } else {
-                        Toast.makeText(this, "something went wrong,try again", Toast.LENGTH_SHORT).show();
-                    }
-
-                }*/
                     }
                     break;
 
@@ -990,36 +981,7 @@ public class HomeScreen extends AppCompatActivity {
     }
 
     public void downloadAddAccountStatusFile() {
-//        Log.d(TAG, ">> writeFileToStorage");
-//
-//        AssetManager assetManager = this.getAssets();
-//        if (new File(getFilePath()).exists()) {
-//            Log.d(TAG, "File exists, do nothing");
-//            Log.d(TAG, "<< writeFileToStorage");
-//            return;
-//        }
-//
-//        try (InputStream input = assetManager.open(FILE_NAME);
-//             OutputStream output = new FileOutputStream(getFilePath())) {
-//
-//            Log.d(TAG, "File does not exist, write it");
-//
-//            byte[] buffer = new byte[input.available()];
-//            int length;
-//            while ((length = input.read(buffer)) != -1) {
-//                output.write(buffer, 0, length);
-//            }
-//
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//            Log.e(TAG, "File is not found");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            Log.d(TAG, "Error while writing the file");
-//        }
-//
-//        Log.d(TAG, "<< writeFileToStorage");
-//        Toast.makeText(this, "File Downloaded", Toast.LENGTH_SHORT).show();
+
         progressBar.setVisibility(View.VISIBLE);
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference reference = storage.getReference()
@@ -1079,5 +1041,9 @@ public class HomeScreen extends AppCompatActivity {
 
     }
 
+
+    public void closeAdd(View view) {
+        addLayout.setVisibility(View.GONE);
+    }
 }
 

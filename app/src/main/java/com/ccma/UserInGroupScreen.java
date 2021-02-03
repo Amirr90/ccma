@@ -104,8 +104,7 @@ public class UserInGroupScreen extends AppCompatActivity {
                             adapter.notifyDataSetChanged();
 
 
-                        }
-                        else {
+                        } else {
                             Toast.makeText(UserInGroupScreen.this, "No account found", Toast.LENGTH_SHORT).show();
                         }
 
@@ -182,7 +181,6 @@ public class UserInGroupScreen extends AppCompatActivity {
                 public boolean onLongClick(final View v) {
                     final String id = snapshot.getKey();
                     new AlertDialog.Builder(UserInGroupScreen.this)
-
                             .setMessage("Remove account no: '" + id + "' from group??")
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override

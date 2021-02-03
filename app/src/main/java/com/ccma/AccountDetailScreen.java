@@ -200,6 +200,7 @@ public class AccountDetailScreen extends AppCompatActivity {
 
     private void setOtherAccount() {
 
+        Log.d("TAG", "setOtherAccount: "+AccountId);
         databaseReference.child(FAMILY_GROUPS_QUERY)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override

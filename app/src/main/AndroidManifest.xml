@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AccountStatus"/>
+        <activity android:name=".ContactUs"></activity>
+        <activity android:name=".AccountStatus" />
         <activity android:name=".AddUserInGroupScreen" />
         <activity android:name=".GroupsScreen" />
         <activity android:name=".UserInGroupScreen" />
@@ -57,6 +58,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-8024475397859122~1686588781" />
     </application>
 
 </manifest>

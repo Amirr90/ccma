@@ -58,6 +58,7 @@ import static com.ccma.Utility.Util.ADDED_TO;
 import static com.ccma.Utility.Util.CREATED_AT;
 import static com.ccma.Utility.Util.DEFAULT;
 import static com.ccma.Utility.Util.EMAIL;
+import static com.ccma.Utility.Util.EXTRA_COLUMN_1;
 import static com.ccma.Utility.Util.FAMILY_GROUPS_QUERY;
 import static com.ccma.Utility.Util.GROUPS_QUERY;
 import static com.ccma.Utility.Util.GROUP_ID;
@@ -291,10 +292,9 @@ public class PickAccountScreen extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
-
                             if (documentSnapshot != null && documentSnapshot.exists()) {
                                 databaseReference
-                                        .child(documentSnapshot.getLong(ACCOUNT_NUMBER) + "")
+                                        .child(documentSnapshot.getId())
                                         .setValue(documentSnapshot.getData())
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override

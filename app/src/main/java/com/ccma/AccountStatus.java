@@ -115,52 +115,6 @@ public class AccountStatus extends AppCompatActivity {
 
     }
 
-    private void loadExaminationData() {
-
-        /*firestore.collection(EXAMINATION)
-                .document(doc_id)
-                .collection(CLASS)
-                .orderBy(LAST_UPDATE, Query.Direction.DESCENDING)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        progressBar.setVisibility(View.GONE);
-                        if (null == queryDocumentSnapshots && queryDocumentSnapshots.isEmpty()) {
-                            Toast.makeText(AccountStatus.this, "No data", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        examinationList.addAll(queryDocumentSnapshots.getDocuments());
-                        adapter.notifyDataSetChanged();
-                        swipe_refresh.setRefreshing(false);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(AccountStatus.this, "try again", Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
-        Map<String, Object> map = new HashMap<>();
-        long timestamp = System.currentTimeMillis();
-        map.put(TIMESTAMP, timestamp);
-        map.put(ACCOUNT_NUMBER, AccountId);
-        map.put(DATA, "20-05-2014");
-        map.put(CLASSIFICATION, "STANDARD");
-        map.put(BALANCE_DUE, 25000);
-        firestore.collection(ACCOUNT_STATUS_QUERY)
-                .document(timestamp + "")
-                .set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                swipe_refresh.setRefreshing(false);
-                progressBar.setVisibility(View.GONE);
-            }
-        });
-
-    }
-
 
     @Override
     public boolean onSupportNavigateUp() {

@@ -15,6 +15,7 @@
         app:showAsAction="always" />
 
     <item
+        android:visible="false"
         android:id="@+id/menuRefresh"
         android:icon="@drawable/ic_baseline_refresh_24"
         android:title="Profile"
@@ -53,10 +54,6 @@
     <item
         android:id="@+id/menuFilter"
         android:title="Filters" />
-    <item
-        android:id="@+id/menuAbout"
-        android:title="About" />
-
 
     <item
         android:id="@+id/menuContactUs"

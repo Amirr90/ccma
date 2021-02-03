@@ -4,13 +4,11 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Paint;
-import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.widget.CalendarView;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,29 +16,31 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 
+import com.archit.calendardaterangepicker.customviews.CalendarListener;
+import com.archit.calendardaterangepicker.customviews.DateRangeCalendarView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.GrayColor;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -52,26 +52,27 @@ import static com.ccma.Utility.Util.EMAIL;
 import static com.ccma.Utility.Util.NAME;
 import static com.ccma.Utility.Util.PERSONAL_CONTACT;
 import static com.ccma.Utility.Util.PHONE_CONTACT;
-import static com.ccma.Utility.Util.PROJECT;
 import static com.ccma.Utility.Util.SAN_AMOUNT;
 import static com.ccma.Utility.Util.SAN_DT;
 import static com.ccma.Utility.Util.TIMESTAMP;
-import static com.ccma.Utility.Util.USERNAME;
 import static com.ccma.Utility.Util.VISIT_TYPE;
 import static com.ccma.Utility.Util.checkStoragePermissions;
 import static com.ccma.Utility.Util.getBankName;
 import static com.ccma.Utility.Util.getBranchName;
 import static com.ccma.Utility.Util.getDate;
 import static com.ccma.Utility.Util.getEmail;
-import static com.ccma.Utility.Util.getFullDate;
 import static com.ccma.Utility.Util.requestStoragePermissions;
 
 public class PrintScreen extends AppCompatActivity {
+    private static final String TAG = "PrintScreen";
 
-    CalendarView simpleCalendarView;
     String pdfName;
     ProgressDialog progressDialog;
     String visitType;
+
+    DateRangeCalendarView calendar;
+
+    String choices[] = {"Personal Contact Data", "Phone Contact Data", "Comments Data"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,18 +91,25 @@ public class PrintScreen extends AppCompatActivity {
 
         setDate();
 
-        simpleCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                showOptionDialog(year, month, dayOfMonth);
+        calendar = (DateRangeCalendarView) findViewById(R.id.calendar);
 
+        calendar.setCalendarListener(new CalendarListener() {
+            @Override
+            public void onFirstDateSelected(@NotNull Calendar calendar) {
 
             }
+
+            @Override
+            public void onDateRangeSelected(@NotNull Calendar startDate, @NotNull Calendar endDate) {
+                Log.d(TAG, "onDateRangeSelected: " + "Start Date: " + startDate.getTimeInMillis() + " End date: " + endDate.getTimeInMillis());
+                showOptionDialog(startDate, endDate);
+            }
         });
+
     }
 
-    private void showOptionDialog(final int year, final int month, final int dayOfMonth) {
-        String choices[] = {"Personal Contact Data", "Phone Contact Data", "Comments Data"};
+    private void showOptionDialog(final Calendar startTime, final Calendar endTime) {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(PrintScreen.this);
         builder.setTitle("Make your selection");
         builder.setItems(choices, new DialogInterface.OnClickListener() {
@@ -117,10 +125,10 @@ public class PrintScreen extends AppCompatActivity {
                     progressDialog.show();
                     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
                     firebaseFirestore.collection(DAILY_VISIT_DATA_QUERY)
-                            .whereEqualTo(EMAIL, getEmail(PrintScreen.this))
                             .whereEqualTo(VISIT_TYPE, visitType)
-                            .whereEqualTo("month", (month + 1) + "")
-                            .whereEqualTo("day", dayOfMonth + "")
+                            .whereEqualTo(EMAIL, getEmail(PrintScreen.this))
+                            .whereGreaterThanOrEqualTo("timestamp", startTime.getTimeInMillis())
+                            .whereLessThanOrEqualTo("timestamp", endTime.getTimeInMillis())
                             .get()
                             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                 @Override
@@ -132,8 +140,8 @@ public class PrintScreen extends AppCompatActivity {
                                     }
 
                                     List<DocumentSnapshot> snapshots = queryDocumentSnapshots.getDocuments();
-                                    String date = dayOfMonth + "-" + (month + 1) + "-" + year;
-                                    createPdf(snapshots, date);
+                                    //  String date = startTime.get + "-" + (month + 1) + "-" + year;
+                                    createPdf(snapshots, startTime.getTime().toString(), startTime, endTime);
 
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -152,7 +160,7 @@ public class PrintScreen extends AppCompatActivity {
 
     }
 
-    private void createPdf(List<DocumentSnapshot> snapshots, String date) {
+    private void createPdf(List<DocumentSnapshot> snapshots, String date, Calendar startTime, Calendar endTime) {
         Document doc = new Document(PageSize.A4.rotate(), 10, 10
                 , 10, 10);
         pdfName = (System.currentTimeMillis()) + ".pdf";
@@ -173,12 +181,13 @@ public class PrintScreen extends AppCompatActivity {
 
             String header = getBankName(PrintScreen.this) + "\n" +
                     getBranchName(PrintScreen.this) + "\n" +
-                    "Report Of " + visitType + " made On: " + date
-                    + "\nReport Print Date: " + getDate(System.currentTimeMillis())+"\n\n";
+                    "Report of " + visitType + " made on: " + date
+                    + "\nReport Print Date: " + getDate(System.currentTimeMillis()) + "\n"
+                    + "From: " + getDate(startTime.getTimeInMillis()) + "         To: " + getDate(endTime.getTimeInMillis()) + "\n\n";
             Paragraph letterNo = new Paragraph(header, fontSize_16);
             letterNo.setAlignment(Paragraph.ALIGN_CENTER);
             doc.add(letterNo);
-            float[] columnWidths = {1, 1.3f, 2.5f, 4, 4, 2, 2, 4};
+            float[] columnWidths = {1, 1.3f, 3, 4, 4, 2, 2, 4, 2};
             PdfPTable table = new PdfPTable(columnWidths);
             table.setWidthPercentage(100);
             table.getDefaultCell().setUseAscender(true);
@@ -188,19 +197,20 @@ public class PrintScreen extends AppCompatActivity {
             cell.setPadding(10);
             cell.setBackgroundColor(GrayColor.GRAYBLACK);
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.setColspan(8);
+            cell.setColspan(9);
             table.addCell(cell);
             table.getDefaultCell().setBackgroundColor(new GrayColor(0.75f));
             table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
             for (int i = 0; i < 2; i++) {
-                table.addCell("S.No");
+                table.addCell("S.N");
                 table.addCell("Project");
                 table.addCell("A/C No");
                 table.addCell("Borrower's Name");
                 table.addCell("Address");
                 table.addCell("San Amount");
                 table.addCell("San Date");
-                table.addCell(visitType + " details");
+                table.addCell(visitType + " Details");
+                table.addCell("Date");
             }
             table.setHeaderRows(3);
             table.setFooterRows(1);
@@ -224,7 +234,6 @@ public class PrintScreen extends AppCompatActivity {
 
                 } else {
                     builder1.append(map.get("comment") + "\n");
-
                 }
                 String amount = (String) map.get(SAN_AMOUNT);
                 String address = (String) map.get(ADDRESS);
@@ -234,14 +243,17 @@ public class PrintScreen extends AppCompatActivity {
                     am = amount.split("\\:");
                     ad = address.split("\\:");
                     table.addCell(String.valueOf(counter));
-                    table.addCell("CCL");
+                    table.addCell("CCA");
                     table.addCell((String) map.get(ACCOUNT_NUMBER) + "");
                     table.addCell((String) map.get(NAME));
-                    table.addCell(ad.length>1?ad[1]:ad[0]);
-                    table.addCell(am.length>1?am[1]:am[0]);
+                    table.addCell(ad.length > 1 ? ad[1] : ad[0]);
+                    table.addCell(am.length > 1 ? am[1] : am[0]);
                     table.addCell((String) map.get(SAN_DT));
                     table.addCell(builder1.toString());
+                    table.addCell(getDate(snapshot.getLong(TIMESTAMP)).toString());
                 } catch (Exception e) {
+                    Log.d(TAG, "createPdfDateError: " + e.getLocalizedMessage());
+
                 }
 
                 counter++;
@@ -250,9 +262,7 @@ public class PrintScreen extends AppCompatActivity {
             openPdf(file);
         } catch (FileNotFoundException | DocumentException e) {
             e.printStackTrace();
-        } /*catch (Exception e) {
-            Toast.makeText(this, "erroe " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-        }*/ finally {
+        } finally {
             doc.close();
         }
 
@@ -266,23 +276,19 @@ public class PrintScreen extends AppCompatActivity {
             intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(uri);
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            startActivity(intent);
         } else {
             String myFilePath = Environment.getExternalStorageDirectory().getPath() + "/CCMA/" + pdfName;
-            //File myFile = new File(myFilePath);
             intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(Uri.parse(myFilePath), "application/pdf");
             intent = Intent.createChooser(intent, "Open File");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
         }
+        startActivity(intent);
     }
 
 
     private void setDate() {
-        simpleCalendarView = (CalendarView) findViewById(R.id.simpleCalendarView); // get the reference of CalendarView
-        simpleCalendarView.setDate(System.currentTimeMillis());
-        simpleCalendarView.setFirstDayOfWeek(2);
+
     }
 
     @Override

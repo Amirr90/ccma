@@ -52,6 +52,7 @@ import static com.ccma.Utility.Util.ACCOUNT_NUMBER;
 import static com.ccma.Utility.Util.ACCOUNT_QUERY;
 import static com.ccma.Utility.Util.DEFAULT;
 import static com.ccma.Utility.Util.EMAIL;
+import static com.ccma.Utility.Util.EXTRA_COLUMN_1;
 import static com.ccma.Utility.Util.GROUP_ID;
 import static com.ccma.Utility.Util.IMAGE;
 import static com.ccma.Utility.Util.NAME;
@@ -127,13 +128,13 @@ public class AddUserInGroupScreen extends AppCompatActivity {
     }
 
     private void loadData(CharSequence charSequence) {
-        long acc_num;
+        String acc_num;
         try {
-            acc_num = Long.parseLong(charSequence.toString());
+            acc_num = charSequence.toString();
             progressBar.setVisibility(View.VISIBLE);
             final Query query = firestore.collection(ACCOUNT_QUERY)
                     .whereEqualTo(EMAIL, getEmail(AddUserInGroupScreen.this))
-                    .orderBy(ACCOUNT_NUMBER)
+                    .orderBy(EXTRA_COLUMN_1)
                     .startAt(acc_num)
                     .endAt(acc_num + "\uf8ff")
                     .limit(5);
@@ -197,7 +198,7 @@ public class AddUserInGroupScreen extends AppCompatActivity {
             final DocumentSnapshot user = accountList.get(position);
 
             try {
-                long acc_number = user.getLong(ACCOUNT_NUMBER);
+                String acc_number = user.getString(EXTRA_COLUMN_1);
                 holder.account_number.setText("" + acc_number);
                 holder.name.setText(user.getString(NAME));
 

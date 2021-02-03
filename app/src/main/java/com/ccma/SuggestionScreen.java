@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -293,7 +294,7 @@ public class SuggestionScreen extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     progressDialog.setMessage("Uploading, Please wait...");
-                    progressDialog.setCancelable(false);
+                    progressDialog.setCancelable(true);
                     progressDialog.show();
                     String timestamp = String.valueOf(System.currentTimeMillis());
                     Map<String, Object> map = new HashMap<>();
@@ -306,9 +307,11 @@ public class SuggestionScreen extends AppCompatActivity {
                     map.put(ADDRESS, Address);
                     map.put(SAN_DT, SanDate);
 
+
                     reference.document(timestamp).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
+                            Log.d("TAG", "onClick: Uploaded");
                             progressDialog.dismiss();
                             Intent intent = new Intent();
                             intent.putExtra(RESPONSE, "Updated successfully");
@@ -323,6 +326,7 @@ public class SuggestionScreen extends AppCompatActivity {
                             intent.putExtra(RESPONSE, "failed to Update,try again");
                             setResult(RESULT_OK, intent);
                             finish();
+                            Log.d("TAG", "onClick: Error");
                         }
                     });
                 }
