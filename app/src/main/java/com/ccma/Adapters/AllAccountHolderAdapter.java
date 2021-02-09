@@ -66,6 +66,7 @@ public class AllAccountHolderAdapter extends RecyclerView.Adapter<AllAccountHold
     ProgressDialog progressDialog;
 
     RewardedAd mRewardedAd;
+    //Date 09-02-2021
 
     public AllAccountHolderAdapter(List<DocumentSnapshot> accountList, Activity context) {
         this.accountList = accountList;
