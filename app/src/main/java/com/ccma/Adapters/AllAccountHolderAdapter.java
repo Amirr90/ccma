@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ccma.AccountDetailScreen;
 import com.ccma.R;
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.OnUserEarnedRewardListener;
+import com.google.android.gms.ads.RequestConfiguration;
+import com.google.android.gms.ads.rewarded.RewardItem;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -31,6 +43,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static com.ccma.Utility.Util.ACCOUNT_ID;
@@ -47,9 +60,12 @@ import static com.ccma.Utility.Util.hideKeyboard;
 
 public class AllAccountHolderAdapter extends RecyclerView.Adapter<AllAccountHolderAdapter.ViewHolder> {
 
+    private static final String TAG = "AllAccountHolderAdapter";
     List<DocumentSnapshot> accountList;
     Activity context;
     ProgressDialog progressDialog;
+
+    RewardedAd mRewardedAd;
 
     public AllAccountHolderAdapter(List<DocumentSnapshot> accountList, Activity context) {
         this.accountList = accountList;
@@ -113,9 +129,10 @@ public class AllAccountHolderAdapter extends RecyclerView.Adapter<AllAccountHold
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String acc_id = user.getId();
-                context.startActivity(new Intent(context, AccountDetailScreen.class)
-                        .putExtra(ACCOUNT_ID, acc_id));
+
+
+                setRewardAdd(user);
+
             }
         });
 
@@ -222,5 +239,81 @@ public class AllAccountHolderAdapter extends RecyclerView.Adapter<AllAccountHold
             profileImage = itemView.findViewById(R.id.imageView);
             relativeLayout = (RelativeLayout) itemView.findViewById(R.id.relativeLayout);
         }
+    }
+
+    private void setRewardAdd(final DocumentSnapshot user) {
+
+        RequestConfiguration configuration = new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("EAE61BEA656088A6BE28C25EDB1A5A2F")).build();
+        MobileAds.setRequestConfiguration(configuration);
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        Log.d(TAG, "setRewardAdd: Mode " + adRequest.isTestDevice(context));
+        RewardedAd.load(context, "ca-app-pub-8024475397859122/2083215585",
+                adRequest, new RewardedAdLoadCallback() {
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error.
+                        Log.d(TAG, loadAdError.getMessage());
+                        mRewardedAd = null;
+
+                    }
+
+                    @Override
+                    public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
+                        mRewardedAd = rewardedAd;
+                        Log.d(TAG, "onAdFailedToLoad " + rewardedAd.getRewardItem());
+                    }
+                });
+
+        if (null != mRewardedAd) {
+            mRewardedAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                @Override
+                public void onAdShowedFullScreenContent() {
+                    // Called when ad is shown.
+                    Log.d(TAG, "Ad was shown.");
+                    mRewardedAd = null;
+                }
+
+                @Override
+                public void onAdFailedToShowFullScreenContent(AdError adError) {
+
+                    Log.d(TAG, "Ad failed to show.");
+                    String acc_id = user.getId();
+                    context.startActivity(new Intent(context, AccountDetailScreen.class)
+                            .putExtra(ACCOUNT_ID, acc_id));
+                }
+
+                @Override
+                public void onAdDismissedFullScreenContent() {
+
+                    Log.d(TAG, "Ad was dismissed.");
+                    String acc_id = user.getId();
+                    context.startActivity(new Intent(context, AccountDetailScreen.class)
+                            .putExtra(ACCOUNT_ID, acc_id));
+                }
+            });
+        }
+
+
+        if (mRewardedAd != null) {
+            Activity activityContext = context;
+            mRewardedAd.show(activityContext, new OnUserEarnedRewardListener() {
+                @Override
+                public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
+                    // Handle the reward.
+                    Log.d("TAG", "The user earned the reward.");
+                    int rewardAmount = rewardItem.getAmount();
+                    String rewardType = rewardItem.getType();
+                    Log.d(TAG, "onUserEarnedReward: " + rewardAmount);
+                    Log.d(TAG, "onUserEarnedRewardType: " + rewardType);
+                }
+            });
+        } else {
+            String acc_id = user.getId();
+            context.startActivity(new Intent(context, AccountDetailScreen.class)
+                    .putExtra(ACCOUNT_ID, acc_id));
+            Log.d("TAG", "The rewarded ad wasn't ready yet.");
+        }
+
     }
 }

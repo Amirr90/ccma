@@ -1,5 +1,6 @@
 package com.ccma;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
@@ -39,11 +40,18 @@ import com.ccma.Utility.Api;
 import com.ccma.Utility.ApiUtils;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.OnUserEarnedRewardListener;
+import com.google.android.gms.ads.RequestConfiguration;
+import com.google.android.gms.ads.rewarded.RewardItem;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
@@ -67,6 +75,7 @@ import com.google.firebase.storage.StorageReference;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,6 +87,7 @@ import retrofit2.Response;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
+import static com.ccma.Utility.Util.ACCOUNT_ID;
 import static com.ccma.Utility.Util.ACCOUNT_NUMBER;
 import static com.ccma.Utility.Util.ACCOUNT_QUERY;
 import static com.ccma.Utility.Util.ADDRESS;
@@ -110,7 +120,6 @@ import static com.ccma.Utility.Util.SELF_GROUPS_QUERY;
 import static com.ccma.Utility.Util.TAG2;
 import static com.ccma.Utility.Util.TIMESTAMP;
 import static com.ccma.Utility.Util.TYPE;
-import static com.ccma.Utility.Util.VISIT_TYPE;
 import static com.ccma.Utility.Util.getEmail;
 import static com.ccma.Utility.Util.getSHA512;
 import static com.ccma.Utility.Util.hideKeyboard;
@@ -147,6 +156,7 @@ public class HomeScreen extends AppCompatActivity {
     ConstraintLayout addLayout;
     FloatingActionMenu floatingActionMenu;
     FloatingActionButton floatingActionButton1, floatingActionButton2, floatingActionButton3;
+    RewardedAd mRewardedAd;
 
 
     @Override
@@ -204,8 +214,8 @@ public class HomeScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 floatingActionMenu.close(true);
-                Intent intent = new Intent(HomeScreen.this, AddNewAccountScreen.class);
-                startActivityForResult(intent, REQ_CODE_ADD_NEW_ACCOUNT);
+                setRewardAdd();
+
             }
         });
 
@@ -251,6 +261,80 @@ public class HomeScreen extends AppCompatActivity {
 
     }
 
+
+    private void setRewardAdd() {
+
+        RequestConfiguration configuration = new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("EAE61BEA656088A6BE28C25EDB1A5A2F")).build();
+        MobileAds.setRequestConfiguration(configuration);
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        Log.d(TAG, "setRewardAdd: Mode " + adRequest.isTestDevice(HomeScreen.this));
+        RewardedAd.load(HomeScreen.this, "ca-app-pub-8024475397859122/2083215585",
+                adRequest, new RewardedAdLoadCallback() {
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error.
+                        Log.d(TAG, loadAdError.getMessage());
+                        mRewardedAd = null;
+
+                    }
+
+                    @Override
+                    public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
+                        mRewardedAd = rewardedAd;
+                        Log.d(TAG, "onAdFailedToLoad " + rewardedAd.getRewardItem());
+                    }
+                });
+
+        if (null != mRewardedAd) {
+            mRewardedAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                @Override
+                public void onAdShowedFullScreenContent() {
+                    // Called when ad is shown.
+                    Log.d(TAG, "Ad was shown.");
+                    mRewardedAd = null;
+                }
+
+                @Override
+                public void onAdFailedToShowFullScreenContent(AdError adError) {
+
+                    Log.d(TAG, "Ad failed to show.");
+                    Intent intent = new Intent(HomeScreen.this, AddNewAccountScreen.class);
+                    startActivityForResult(intent, REQ_CODE_ADD_NEW_ACCOUNT);
+                }
+
+                @Override
+                public void onAdDismissedFullScreenContent() {
+
+                    Log.d(TAG, "Ad was dismissed.");
+                    Intent intent = new Intent(HomeScreen.this, AddNewAccountScreen.class);
+                    startActivityForResult(intent, REQ_CODE_ADD_NEW_ACCOUNT);
+                }
+            });
+        }
+
+
+        if (mRewardedAd != null) {
+            Activity activityContext = HomeScreen.this;
+            mRewardedAd.show(activityContext, new OnUserEarnedRewardListener() {
+                @Override
+                public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
+                    // Handle the reward.
+                    Log.d("TAG", "The user earned the reward.");
+                    int rewardAmount = rewardItem.getAmount();
+                    String rewardType = rewardItem.getType();
+                    Log.d(TAG, "onUserEarnedReward: " + rewardAmount);
+                    Log.d(TAG, "onUserEarnedRewardType: " + rewardType);
+                }
+            });
+        } else {
+            Intent intent = new Intent(HomeScreen.this, AddNewAccountScreen.class);
+            startActivityForResult(intent, REQ_CODE_ADD_NEW_ACCOUNT);
+            Log.d("TAG", "The rewarded ad wasn't ready yet.");
+        }
+
+    }
+
     private void updateAccount(String email) {
         firestore.collection("Account_Holders")
                 .whereEqualTo("email", email)
@@ -273,18 +357,6 @@ public class HomeScreen extends AppCompatActivity {
                 });
     }
 
-    private void setAdd() {
-
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
-        });
-
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-    }
 
     private void delete() {
         firestore.collection("Account_Holders")
@@ -432,8 +504,7 @@ public class HomeScreen extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        addLayout.setVisibility(View.VISIBLE);
-        setAdd();
+        addLayout.setVisibility(View.GONE);
     }
 
     public void getExcelFile(View view) {
