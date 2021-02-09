@@ -41,7 +41,7 @@
                     android:id="@+id/et_account_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Account Number"
+                    android:hint="@string/account_number"
                     android:inputType="text"
                     android:paddingLeft="@dimen/_5sdp"
                     android:paddingRight="@dimen/_5sdp" />
@@ -58,10 +58,11 @@
                     android:id="@+id/et_account_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Account Holder Name"
+                    android:hint="@string/account_holder_name"
                     android:inputType="textPersonName"
                     android:paddingLeft="@dimen/_5sdp"
-                    android:paddingRight="@dimen/_5sdp" />
+                    android:paddingRight="@dimen/_5sdp"
+                    android:textAllCaps="true" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -75,7 +76,7 @@
                     android:id="@+id/et_account_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Account Holder Address"
+                    android:hint="@string/account_holder_address"
                     android:inputType="textPersonName"
                     android:paddingLeft="@dimen/_5sdp"
                     android:paddingRight="@dimen/_5sdp" />
@@ -92,7 +93,7 @@
                     android:id="@+id/et_account_amount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Sanction Amount"
+                    android:hint="@string/sanction_amount"
                     android:inputType="phone"
                     android:paddingLeft="@dimen/_5sdp"
                     android:paddingRight="@dimen/_5sdp" />
@@ -109,7 +110,7 @@
                     android:id="@+id/et_account_mobile1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Mobile number1"
+                    android:hint="@string/mobile_number1"
                     android:inputType="phone"
                     android:paddingLeft="@dimen/_5sdp"
                     android:paddingRight="@dimen/_5sdp" />
@@ -126,7 +127,7 @@
                     android:id="@+id/et_account_mobile2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Mobile number2"
+                    android:hint="@string/mobile_number2"
                     android:inputType="phone"
                     android:paddingLeft="@dimen/_5sdp"
                     android:paddingRight="@dimen/_5sdp" />
@@ -144,7 +145,7 @@
                     android:id="@+id/et_account_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Sanction date"
+                    android:hint="@string/sanction_date"
                     android:inputType="phone"
                     android:paddingLeft="@dimen/_5sdp"
                     android:paddingRight="@dimen/_5sdp" />
@@ -161,22 +162,22 @@
                     android:id="@+id/et_account_project"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Project Name"
+                    android:hint="@string/project_name"
                     android:inputType="textPersonName"
                     android:paddingLeft="@dimen/_5sdp"
                     android:paddingRight="@dimen/_5sdp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:textColor="@android:color/white"
-                android:background="@drawable/round_ripple"
                 android:id="@+id/button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginBottom="20dp"
+                android:background="@drawable/round_ripple"
                 android:onClick="addNewAccount"
-                android:text="Add Account" />
+                android:text="@string/add_account"
+                android:textColor="@android:color/white" />
         </LinearLayout>
     </ScrollView>
 

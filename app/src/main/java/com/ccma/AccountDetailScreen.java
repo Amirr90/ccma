@@ -99,6 +99,7 @@ import static com.ccma.Utility.Util.COMMENT;
 import static com.ccma.Utility.Util.COMMENTS_QUERY;
 import static com.ccma.Utility.Util.DAILY_VISIT_DATA_QUERY;
 import static com.ccma.Utility.Util.DEFAULT;
+import static com.ccma.Utility.Util.EXTRA_COLUMN_1;
 import static com.ccma.Utility.Util.FAMILY_GROUPS_QUERY;
 import static com.ccma.Utility.Util.GROUP_ID;
 import static com.ccma.Utility.Util.IMAGE;
@@ -200,7 +201,7 @@ public class AccountDetailScreen extends AppCompatActivity {
 
     private void setOtherAccount() {
 
-        Log.d("TAG", "setOtherAccount: "+AccountId);
+        Log.d("TAG", "setOtherAccount: " + AccountId);
         databaseReference.child(FAMILY_GROUPS_QUERY)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -313,7 +314,7 @@ public class AccountDetailScreen extends AppCompatActivity {
 
                                 Boolean isActive = documentSnapshot.getBoolean(IS_ACTIVE);
 
-                                accountNumber.setText(getAccountNumber(documentSnapshot));
+                                accountNumber.setText(documentSnapshot.getString(EXTRA_COLUMN_1));
                                 accountName.setText(documentSnapshot.getString(NAME));
                                 getSupportActionBar().setTitle(documentSnapshot.getString(NAME));
                                 address.setText("Address: " + documentSnapshot.getString(ADDRESS));
@@ -327,6 +328,7 @@ public class AccountDetailScreen extends AppCompatActivity {
                                 projectName.setText(documentSnapshot.getString(PROJECT));
 
                             } catch (Exception e) {
+
                                 Toast.makeText(AccountDetailScreen.this, "error found in account detail" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -475,6 +477,7 @@ public class AccountDetailScreen extends AppCompatActivity {
                                         requestStoragePermissions(AccountDetailScreen.this);
                                     }
                                 } else {
+                                    progressDialog.dismiss();
                                     Toast.makeText(AccountDetailScreen.this, "No data found", Toast.LENGTH_SHORT).show();
                                 }
                             }

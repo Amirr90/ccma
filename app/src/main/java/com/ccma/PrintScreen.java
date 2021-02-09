@@ -140,7 +140,6 @@ public class PrintScreen extends AppCompatActivity {
                                     }
 
                                     List<DocumentSnapshot> snapshots = queryDocumentSnapshots.getDocuments();
-                                    //  String date = startTime.get + "-" + (month + 1) + "-" + year;
                                     createPdf(snapshots, startTime.getTime().toString(), startTime, endTime);
 
                                 }

@@ -221,17 +221,28 @@ public class HomeScreen extends AppCompatActivity {
 
         floatingActionButton2.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 floatingActionMenu.close(true);
-                downloadAddAccountStatusFile();
-                Snackbar.make(v, msg, Snackbar.LENGTH_SHORT)
-                        .setAction("CHAT WITH US", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                startActivity(new Intent(HomeScreen.this, ChatWithUs.class));
-                            }
-                        }).setActionTextColor(getResources().getColor(R.color.white))
-                        .show();
+                final CharSequence[] items = {"Download Sample file"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreen.this);
+                builder.setTitle("Make your selection");
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        dialog.dismiss();
+                        if (item == 0) {
+                            downloadAddAccountFile();
+                            Snackbar.make(v, msg, Snackbar.LENGTH_SHORT)
+                                    .setAction("CHAT WITH US", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            startActivity(new Intent(HomeScreen.this, ChatWithUs.class));
+                                        }
+                                    }).setActionTextColor(getResources().getColor(R.color.white))
+                                    .show();
+                        } else downloadAddAccountStatusFile();
+
+                    }
+                }).show();
 
 
             }
@@ -239,17 +250,28 @@ public class HomeScreen extends AppCompatActivity {
 
         floatingActionButton3.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 floatingActionMenu.close(true);
-                downloadAddAccountFile();
-                Snackbar.make(v, msg, Snackbar.LENGTH_SHORT)
-                        .setAction("CHAT WITH US", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                startActivity(new Intent(HomeScreen.this, ChatWithUs.class));
-                            }
-                        }).setActionTextColor(getResources().getColor(R.color.white))
-                        .show();
+                final CharSequence[] items = {"Download Sample file"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreen.this);
+                builder.setTitle("Make your selection");
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        dialog.dismiss();
+                        if (item == 0) {
+                            downloadAddAccountFile();
+                            Snackbar.make(v, msg, Snackbar.LENGTH_SHORT)
+                                    .setAction("CHAT WITH US", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            startActivity(new Intent(HomeScreen.this, ChatWithUs.class));
+                                        }
+                                    }).setActionTextColor(getResources().getColor(R.color.white))
+                                    .show();
+                        } else downloadAddAccountStatusFile();
+
+                    }
+                }).show();
             }
         });
 
@@ -479,7 +501,6 @@ public class HomeScreen extends AppCompatActivity {
             case R.id.floatingActionButton: {
 
                 final CharSequence[] items = {"Add Account manually", "Add Account via excel file"};
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreen.this);
                 builder.setTitle("Make your selection");
                 builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -507,20 +528,32 @@ public class HomeScreen extends AppCompatActivity {
         addLayout.setVisibility(View.GONE);
     }
 
-    public void getExcelFile(View view) {
-        if (checkPermission()) {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            startActivityForResult(intent, PICK_EXCEL_FILE_REQ_CODE);
+    public void getExcelFile(final View view) {
+        final CharSequence[] items = {"Download Sample file"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreen.this);
+        builder.setTitle("Make your selection");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                dialog.dismiss();
+                if (item == 0) {
+                    if (checkPermission()) {
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent.setType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+                        startActivityForResult(intent, PICK_EXCEL_FILE_REQ_CODE);
 
 
-        } else
-            Snackbar.make(view, "Permission required", Snackbar.LENGTH_SHORT).setAction("ENABLE PERMISSION", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    requestPermission();
-                }
-            }).show();
+                    } else
+                        Snackbar.make(view, "Permission required", Snackbar.LENGTH_SHORT).setAction("ENABLE PERMISSION", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                requestPermission();
+                            }
+                        }).show();
+
+                } else downloadAddAccountStatusFile();
+
+            }
+        }).show();
 
     }
 
@@ -596,7 +629,6 @@ public class HomeScreen extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menuPrintDaily: {
                 startActivity(new Intent(HomeScreen.this, PrintScreen.class));
-
             }
             break;
             case R.id.menuProfile: {

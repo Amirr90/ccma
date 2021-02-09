@@ -150,16 +150,6 @@ public class AddNewAccountScreen extends AppCompatActivity {
     public Map<String, Object> getAddNewAccountMap(String doc_id) {
         Map<String, Object> map = new HashMap<>();
 
-        /*try {
-            map.put(ACCOUNT_NUMBER, Long.parseLong(et_accountNumber.getText().toString()));
-            map.put(EXTRA_COLUMN_1, NOT_AVAILABLE);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            map.put(ACCOUNT_NUMBER, 0);
-            map.put(EXTRA_COLUMN_1, String.valueOf(et_accountNumber.getText().toString()));
-        }*/
-
         map.put(ACCOUNT_NUMBER, 0);
         map.put(EXTRA_COLUMN_1, et_accountNumber.getText().toString());
         map.put(PROJECT, ac_project);
