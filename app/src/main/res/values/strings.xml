@@ -24,4 +24,5 @@
     <string name="sanction_date">Sanction date</string>
     <string name="project_name">Project Name</string>
     <string name="add_account">Add Account</string>
+    <string name="delete_this_group">Delete This Group</string>
 </resources>

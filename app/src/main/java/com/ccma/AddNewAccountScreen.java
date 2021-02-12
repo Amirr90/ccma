@@ -3,6 +3,7 @@ package com.ccma;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -87,6 +88,7 @@ public class AddNewAccountScreen extends AppCompatActivity {
         et_amount = findViewById(R.id.et_account_amount);
         et_date = findViewById(R.id.et_account_date);
         et_project = findViewById(R.id.et_account_project);
+        et_accountName.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
     }
 
     public void addNewAccount(View view) {

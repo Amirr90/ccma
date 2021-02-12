@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Looper;
 import android.provider.Settings;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -578,6 +579,9 @@ public class AccountDetailScreen extends AppCompatActivity {
         LayoutInflater inflater = AccountDetailScreen.this.getLayoutInflater();
         View view = inflater.inflate(R.layout.update_lay, null);
         final TextInputEditText inputEditText = view.findViewById(R.id.update_et);
+        if (textView.getId() == R.id.acc_name) {
+            inputEditText.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+        }
         inputEditText.setHint(address);
         if (!address.equalsIgnoreCase(SAN_AMOUNT))
             inputEditText.setText(oldText);

@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -43,6 +45,7 @@ import static com.ccma.Utility.Util.DEFAULT;
 import static com.ccma.Utility.Util.EMAIL;
 import static com.ccma.Utility.Util.GROUPS_QUERY;
 import static com.ccma.Utility.Util.GROUP_ID;
+import static com.ccma.Utility.Util.TIMESTAMP;
 import static com.ccma.Utility.Util.TYPE;
 import static com.ccma.Utility.Util.getEmail;
 
@@ -80,31 +83,40 @@ public class GroupsScreen extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         loadData();
     }
 
     private void loadData() {
+        fullUserList.clear();
         progressBar.setVisibility(View.VISIBLE);
-        FirebaseFirestore firestore=FirebaseFirestore.getInstance();
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         firestore.collection(GROUPS_QUERY)
-                .whereEqualTo(EMAIL,getEmail(GroupsScreen.this))
-                .whereEqualTo(TYPE,type)
+                .whereEqualTo(EMAIL, getEmail(GroupsScreen.this))
+                .whereEqualTo(TYPE, type)
+                .orderBy(TIMESTAMP, Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         progressBar.setVisibility(View.GONE);
-                        if (queryDocumentSnapshots!=null && !queryDocumentSnapshots.isEmpty()){
+                        if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
                             fullUserList.addAll(queryDocumentSnapshots.getDocuments());
                             adapter.notifyDataSetChanged();
 
-                        }else {
+                        } else {
                             Toast.makeText(GroupsScreen.this, "No data found", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                Log.d("TAG", "onFailure: " + e.getLocalizedMessage());
                 Toast.makeText(GroupsScreen.this, "try again", Toast.LENGTH_SHORT).show();
             }
         });
@@ -145,6 +157,7 @@ public class GroupsScreen extends AppCompatActivity {
                             .putExtra(GROUP_ID, id));
                 }
             });
+
 
         }
 

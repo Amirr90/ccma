@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -28,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -37,6 +39,7 @@ import java.util.List;
 
 import static com.ccma.Utility.Util.ACCOUNT_ID;
 import static com.ccma.Utility.Util.DEFAULT;
+import static com.ccma.Utility.Util.GROUPS_QUERY;
 import static com.ccma.Utility.Util.GROUP_ID;
 import static com.ccma.Utility.Util.NAME;
 import static com.ccma.Utility.Util.TYPE;
@@ -49,7 +52,7 @@ public class UserInGroupScreen extends AppCompatActivity {
     List<UserModel> fullUserList = new ArrayList<>();
     UserInGroupAdapter adapter;
     DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference getReference;
+    Button btnDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,7 @@ public class UserInGroupScreen extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("GroupId " + getIntent().getStringExtra(GROUP_ID));
 
+        btnDelete = findViewById(R.id.btnDeleteGrp);
         groupId = getIntent().getStringExtra(GROUP_ID);
         type = getIntent().getStringExtra(TYPE);
 
@@ -70,6 +74,42 @@ public class UserInGroupScreen extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar11);
 
         setRec();
+
+
+    }
+
+
+    public void deleteGroup(View view) {
+        new AlertDialog.Builder(this).setMessage("Do you really want to delete this group??")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        progressBar.setVisibility(View.VISIBLE);
+                        dialogInterface.dismiss();
+                        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+                        firestore.collection(GROUPS_QUERY).document(groupId).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                progressBar.setVisibility(View.GONE);
+                                Toast.makeText(UserInGroupScreen.this, "Group Deleted Successfully", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                progressBar.setVisibility(View.GONE);
+                                Toast.makeText(UserInGroupScreen.this, "unable to delete This group, try again", Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        }).show();
+
     }
 
     public void addAccountHolder(View view) {
@@ -97,6 +137,7 @@ public class UserInGroupScreen extends AppCompatActivity {
                         fullUserList.clear();
                         progressBar.setVisibility(View.GONE);
                         if (snapshot.getChildrenCount() > 0) {
+                            btnDelete.setVisibility(View.GONE);
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                 UserModel userModel = dataSnapshot.getValue(UserModel.class);
                                 fullUserList.add(new UserModel(dataSnapshot.getKey(), userModel.getImage()));
@@ -105,6 +146,7 @@ public class UserInGroupScreen extends AppCompatActivity {
 
 
                         } else {
+                            btnDelete.setVisibility(View.VISIBLE);
                             Toast.makeText(UserInGroupScreen.this, "No account found", Toast.LENGTH_SHORT).show();
                         }
 
